@@ -17,6 +17,3 @@ array: Tuple = (12, 72, 91)
 zoom_2x: List = zoom_array(array)
 
 zoom_3x: List = zoom_array(array, 3)
-
-print(zoom_2x)
-print(zoom_3x)
