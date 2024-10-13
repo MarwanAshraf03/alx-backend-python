@@ -5,7 +5,7 @@ import types
 
 
 # The types of the elements of the input are not know
-def safe_first_element(lst: typing.Sequence[typing.Any]) -> typing.Union[typing.Any, types.NoneType]:
+def safe_first_element(lst: typing.Sequence[typing.Any]) -> typing[typing.Any | types.NoneType]:
     if lst:
         return lst[0]
     else:
