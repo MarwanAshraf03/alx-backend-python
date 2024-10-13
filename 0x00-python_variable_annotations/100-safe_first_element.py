@@ -3,9 +3,10 @@
 # import typing
 from typing import Union, Any, Sequence, TypeVar
 import types
-new_type = TypeVar("NoneType",covariant=False, contravariant=False)
+
 
 def safe_first_element(lst: Sequence[Any]) -> Union[Any, None]:
+    """function"""
     if lst:
         return lst[0]
     else:
