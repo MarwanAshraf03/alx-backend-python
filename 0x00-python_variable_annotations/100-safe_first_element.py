@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """same first element module"""
 # import typing
-from typing import Union, Any, Sequence
+from typing import Union, Any, Sequence, TypeVar
 import types
+new_type = TypeVar("NoneType",covariant=False, contravariant=False)
 
-
-# The types of the elements of the input are not know
-# def safe_first_element(lst: typing.Sequence[typing.Any]) -> typing.Union[typing.Any | types.NoneType]:
-def safe_first_element(lst: Sequence[Any]) -> Union[types.NoneType, Any]:
+def safe_first_element(lst: Sequence[Any]) -> Union[Any, new_type.__name__]:
     if lst:
         return lst[0]
     else:
