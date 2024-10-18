@@ -9,7 +9,5 @@ async def async_comprehension() -> typing.List[float]:
     uses async comprehension to collect 10 numbers
     from async_generator function
     """
-    ll: typing.List[float] = []
-    async for i in async_generator():
-        ll.append(i)
+    ll: typing.List[float] = [i async for i in async_generator()]
     return (ll)
