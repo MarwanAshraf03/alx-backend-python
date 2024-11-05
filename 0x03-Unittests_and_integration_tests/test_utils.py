@@ -25,7 +25,6 @@ class TestAccessNestedMap(unittest.TestCase):
         ({}, ("a",)),
         ({"a": 1}, ("a", "b")),
     ])
-    # python3 -c 'print(__import__("test_utils").TestAccessNestedMap.test_access_nested_map_exception.__doc__)'
     def test_access_nested_map_exception(self, nested_map: Mapping,
                                          path: Sequence) -> None:
         """tests if access_nested_map raises a keyError on specific inputs"""
