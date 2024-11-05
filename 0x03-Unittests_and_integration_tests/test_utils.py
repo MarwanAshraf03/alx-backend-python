@@ -17,8 +17,6 @@ class TestAccessNestedMap(unittest.TestCase):
     ])
     def test_access_nested_map(self, nested_map: Mapping, path: Sequence,
                                expected: Any) -> None:
-        """a function to test the access_nested_map function"""
-
         self.assertEqual(access_nested_map(nested_map, path), expected)
 
     @parameterized.expand([
@@ -31,12 +29,20 @@ class TestAccessNestedMap(unittest.TestCase):
         with self.assertRaises(KeyError):
             access_nested_map(nested_map, path)
 
-# class TestGetJson(unittest.TestCase):
-#     """a class that tests the utils.get_json"""
-#     @parameterized.expand([
-#         ("http://example.com", {"payload": True}, ),
-#         ("http://holberton.io", {"payload": False}, ),
-#     ])
-#     @unittest.mock.patch("requests.get", return_value=unittest.mock.Mock())
-#     def test_get_json(self, url: str) -> None:
-#         pass
+
+class TestGetJson(unittest.TestCase):
+    """a class that tests the utils.get_json"""
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}, ),
+        ("http://holberton.io", {"payload": False}, ),
+    ])
+    @unittest.mock.patch("requests.get", return_value=unittest.mock.Mock())
+    def test_get_json(self, url: str, playload: Mapping,
+                      mockk: unittest.mock.Mock) -> None:
+        """Function that tests utils.get_json"""
+        new_mock = unittest.mock.Mock()
+        new_mock.json.return_value = playload
+        mockk.return_value = new_mock
+
+        self.assertEqual(get_json(url), playload)
+        self.assertEqual(mockk.call_count, 1)
