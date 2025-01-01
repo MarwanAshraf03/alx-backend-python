@@ -4,6 +4,8 @@ import unittest
 import unittest.mock
 from parameterized import parameterized
 from typing import Mapping, Sequence, Any
+
+from utils import memoize
 access_nested_map = __import__('utils').access_nested_map
 get_json = __import__('utils').get_json
 
@@ -46,3 +48,50 @@ class TestGetJson(unittest.TestCase):
 
         self.assertEqual(get_json(url), playload)
         self.assertEqual(mockk.call_count, 1)
+
+# class TestMemoize(unittest.TestCase):
+#     @unittest.mock.patch("TestClass.a_method", return_value=unittest.mock.Mock())
+#     def  test_memoize(self, mockk: unittest.mock.Mock):
+#         class TestClass:
+#             def a_method(self):
+#                 return 42
+#             @memoize
+#             def a_property(self):
+#                 return self.a_method()
+#         new_mock = unittest.mock.Mock()
+#         new_mock.return_value = 42
+#         mockk.return_value = new_mock
+#         self.assertEqual(TestClass.a_property(), 42)
+#         self.assertEqual(TestClass.a_property(), 42)
+#         self.assertEqual(mockk.call_count, 1)
+
+
+# class TestMemoize(unittest.TestCase):
+#     class TestClass:
+#         def a_method(self):
+#             return 42
+#         @memoize
+#         def a_property(self):
+#             return self.a_method()
+
+#     @unittest.mock.patch("__main__.TestMemoize.TestClass.a_method", return_value=42)
+#     def test_memoize(self, mockk: unittest.mock.Mock):
+#         instance = self.TestClass()
+#         self.assertEqual(instance.a_property, 42)
+#         self.assertEqual(instance.a_property, 42)
+#         self.assertEqual(mockk.call_count, 1)  # Ensure a_method was called once
+
+class TestMemoize(unittest.TestCase):
+    class TestClass:
+        def a_method(self):
+            return 42
+        @memoize
+        def a_property(self):
+            return self.a_method()
+
+    def test_memoize(self):
+        with unittest.mock.patch(f"{__name__}.TestMemoize.TestClass.a_method", return_value=42) as mockk:
+            instance = self.TestClass()
+            self.assertEqual(instance.a_property, 42)
+            self.assertEqual(instance.a_property, 42)
+            self.assertEqual(mockk.call_count, 1)  # Ensure a_method was called once
