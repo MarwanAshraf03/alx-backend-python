@@ -9,7 +9,7 @@ from typing import Mapping, Sequence, Any
 from utils import memoize
 from client import GithubOrgClient
 access_nested_map = __import__('utils').access_nested_map
-get_json = __import__('utils').get_json
+# get_json = __import__('utils').get_json
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -37,3 +37,17 @@ class TestGithubOrgClient(unittest.TestCase):
         """"""
         MK_ret.return_value = {"repos_url": "great"}
         self.assertEqual(GithubOrgClient(url)._public_repos_url, ret)
+
+    @parameterized.expand([
+        ("google"),
+        ("abc"),
+    ])
+    @patch("client.get_json", return_value=[{"name": "get_json"}])
+    def test_public_repos(self, url: str, mk: Mock):
+        """Test public_repos"""
+        with patch("client.GithubOrgClient._public_repos_url",
+                   new_callable=PropertyMock) as mock_public_url:
+            mock_public_url.return_value = "get"
+            self.assertEqual(GithubOrgClient(url).public_repos(), ["get_json"])
+            self.assertEqual(mock_public_url.call_count, 1)
+            self.assertEqual(mk.call_count, 1)
