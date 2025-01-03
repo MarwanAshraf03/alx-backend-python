@@ -50,3 +50,10 @@ class TestGithubOrgClient(unittest.TestCase):
             # self.assertEqual(mk.call_count, 1)
             mock_public_url.assert_called_once()
             mk.assert_called_once()
+
+    @parameterized.expand([
+        ({"license": {"key": "my_license"}}, "my_license", True),
+        ({"license": {"key": "other_license"}}, "my_license", False),
+    ])
+    def test_has_license(self, repo: Mapping, license_key: str, eval: bool):
+        self.assertEqual(GithubOrgClient("url").has_license(repo, license_key), eval)
